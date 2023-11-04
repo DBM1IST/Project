@@ -43,7 +43,6 @@ CREATE TABLE advertising_company(
     id_company INT NOT NULL,
     deposit INT NOT NULL,
     PRIMARY KEY (id_company),
-    FOREIGN KEY (id) REFERENCES person (id)
 );
 
 CREATE TABLE influencer(
