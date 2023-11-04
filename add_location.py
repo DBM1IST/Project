@@ -2,18 +2,12 @@ import psycopg2
 import pathlib
 
 connection = None
-
-
-file_dir = str(pathlib.Path(__file__).parent.absolute()) + '/Real Data/entries-by-location.csv'
-
+file_dir = str(pathlib.Path(__file__).parent.absolute()) + '/Real Data/location.csv'
 file = open(file_dir, "r")
-
 first = 0;
-
-
 try:
 	# Creating connection
-    connection = psycopg2.connect(host = 'localhost',
+    	connection = psycopg2.connect(host = 'localhost',
                                 user = 'postgres',
                                 port = 5432,
                                 dbname = 'postgres')
@@ -21,19 +15,19 @@ try:
     
     for line in file:
         
-        #The first line 
+        # The first line 
         if first == 0:
             first = -1
             continue
         work_line = line.split("\n")[0]
         work_line = work_line.split(",")
                 
-        #Making query
-        sql_sport = 'INSERT INTO sport VALUES (%s, %s, %s, %s);'
-        data = (work_line[1],work_line[0], work_line[3], work_line[2])
+        # Making query
+        sql_location = 'INSERT INTO location VALUES (%s, %s, %s);'
+        data = (work_line[0],work_line[1], work_line[2])
         
         # Feed the data to the SQL query as follows to avoid SQL injection
-        cursor.execute(sql_sport, data)
+        cursor.execute(sql_location, data)
         
     	
     	# Commit the update (without this step the database will not change)
