@@ -1,18 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov  3 18:50:06 2021
-
-@author: Utilizador
-"""
-
 import psycopg2
-import cgi
 import pathlib
 
 connection = None
 
 
-file_dir = str(pathlib.Path(__file__).parent.absolute()) + '/Real Data/entries-by-discipline.csv'
+file_dir = str(pathlib.Path(__file__).parent.absolute()) + '/Real Data/entries-by-location.csv'
 
 file = open(file_dir, "r")
 
