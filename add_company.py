@@ -1,3 +1,11 @@
+sql = f'DROP TABLE IF EXISTS {companyTable}'
+
+# Ejecutar la sentencia SQL
+cursor.execute(sql)
+
+# Confirmar la eliminación
+con.commit()
+
 #Create Company Table
 
 try:
@@ -5,7 +13,7 @@ try:
     companyTable="company"
     create_companyTablee_query = '''CREATE TABLE '''+ companyTable +''' 
               (id_company TEXT PRIMARY KEY NOT NULL,
-                deposit DECIMAL NOT NULL,
+                deposit DECIMAL NOT NULL
                ); '''
 
     #Execute this command (SQL Query)
