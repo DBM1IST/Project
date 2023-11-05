@@ -1,25 +1,36 @@
+sql = f'DROP TABLE IF EXISTS {channelsTable}'
+
+# Ejecutar la sentencia SQL
+cursor.execute(sql)
+
+# Confirmar la eliminación
+con.commit()
+
+#Create Channel  Table
+
 #Create Channel  Table
 
 try:
     #table_name variable
-    channelTable="channel"
-    create_channelTablee_query = '''CREATE TABLE '''+ channelTable +''' 
+    channelsTable="channels"
+    create_channelsTablee_query = '''CREATE TABLE '''+ channelsTable +''' 
               (
-              name_channel TEXT PRIMARY KEY NOT NULL,
+              name_channels TEXT PRIMARY KEY NOT NULL,
               username TEXT NOT NULL,
               n_users INT NOT NULL
                ); '''
 
     #Execute this command (SQL Query)
-    cursor.execute(create_channelTablee_query)
+    cursor.execute(create_channelsTablee_query)
     
     # Make the changes to the database persistent
     con.commit()
-    print("Table ("+ channelTable +") created successfully in PostgreSQL ")
+    print("Table ("+ channelsTable +") created successfully in PostgreSQL ")
 except (Exception, psycopg2.Error) as error:
     # if it exits with an exception the transaction is rolled back.
     con.rollback()
     print("Error While Creating the DB: ",error)
+
 
 cursor = con.cursor()
 
@@ -35,13 +46,13 @@ for line in file:
     work_line = line.strip().split(",")  # Elimina el salto de línea y divide por comas
     data_to_insert.append(work_line)  # Agrega los datos a la lista
 
-sql_insert_channel = "INSERT INTO channel (id_company, deposit) VALUES (%s, %s)"
+sql_insert_channels = "INSERT INTO channels (name_channels,  username, n_users) VALUES (%s, %s, %s)"
 
 try:
     # Ejecuta el INSERT statement para cada conjunto de datos
     for user_data in data_to_insert:
-        data = (user_data[0], user_data[1])
-        cursor.execute(sql_insert_channel, data)
+        data = (user_data[0], user_data[1], user_data[2])
+        cursor.execute(sql_insert_channels, data)
          
 
     # Realiza la inserción en la base de datos
@@ -56,5 +67,5 @@ except (Exception, psycopg2.Error) as error:
 
 #use Pandas to print the result in tabular form
 # Don't RUN before you put your SQL Query
-my_table = pd.read_sql("SELECT * FROM channel", con)
+my_table = pd.read_sql("SELECT * FROM channels", con)
 display(my_table)
