@@ -4,8 +4,8 @@ try:
     #table_name variable
     companyTable="company"
     create_companyTablee_query = '''CREATE TABLE '''+ companyTable +''' 
-              (id_company INT PRIMARY KEY NOT NULL,
-                deposit INT NOT NULL,
+              (id_company TEXT PRIMARY KEY NOT NULL,
+                deposit DECIMAL NOT NULL,
                ); '''
 
     #Execute this command (SQL Query)
