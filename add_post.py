@@ -5,7 +5,7 @@ try:
     postTable="post"
     create_postTablee_query = '''CREATE TABLE '''+postTable +''' 
               (id_post INT PRIMARY KEY NOT NULL,
-                n_coments INT NOT NULL,
+                n_comments INT NOT NULL,
                 n_like INT NOT NULL,
                 type TEXT NOT NULL,
                ); '''
