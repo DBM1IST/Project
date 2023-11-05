@@ -1,30 +1,34 @@
-#Create POST Table
+sql = f'DROP TABLE IF EXISTS {influencersTable}'
+
+# Ejecutar la sentencia SQL
+cursor.execute(sql)
+
+# Confirmar la eliminación
+con.commit()
 
 try:
     #table_name variable
-    postTable="post"
-    create_postTablee_query = '''CREATE TABLE '''+postTable +''' 
-              (id_post INT PRIMARY KEY NOT NULL,
-                n_comments INT NOT NULL,
-                n_like INT NOT NULL,
-                type TEXT NOT NULL,
-                username TEXT NOT NULL
-               ); '''
+    influencersTable="influencers"
+    create_influencersTablee_query = '''CREATE TABLE '''+ influencersTable +''' 
+              ( id INT PRIMARY KEY NOT NULL,
+              username TEXT REFERENCES users(username) 
+              ); '''
 
     #Execute this command (SQL Query)
-    cursor.execute(create_postTablee_query)
+    cursor.execute(create_influencersTablee_query)
     
     # Make the changes to the database persistent
     con.commit()
-    print("Table ("+ postTable +") created successfully in PostgreSQL ")
+    print("Table ("+ influencersTable +") created successfully in PostgreSQL ")
 except (Exception, psycopg2.Error) as error:
     # if it exits with an exception the transaction is rolled back.
     con.rollback()
     print("Error While Creating the DB: ",error)
 
+
 cursor = con.cursor()
 
-file_dir = str(pathlib.Path().absolute()) + '/data/post.csv'
+file_dir = str(pathlib.Path().absolute()) + '/data/influencers.csv'
 file = open(file_dir, "r")
 first = 0
 data_to_insert = []  # Lista para almacenar los datos a insertar
@@ -36,27 +40,28 @@ for line in file:
     work_line = line.strip().split(",")  # Elimina el salto de línea y divide por comas
     data_to_insert.append(work_line)  # Agrega los datos a la lista
 
-sql_insert_post = "INSERT INTO post (id_post, n_comments, n_like, type, username) VALUES (%s, %s, %s, %s, %s)"
+sql_insert_influencers = "INSERT INTO influencers (id,username) VALUES (%s,%s)"
+
 
 try:
     # Ejecuta el INSERT statement para cada conjunto de datos
     for user_data in data_to_insert:
-        data = (user_data[0], user_data[1],user_data[2],user_data[3], user_data[4])
-        cursor.execute(sql_insert_post, data)
+        data = (user_data[0],user_data[1])
+        cursor.execute(sql_insert_influencers, data)
          
 
     # Realiza la inserción en la base de datos
     con.commit()
     # El número de filas/tuplas insertadas
     count = cursor.rowcount
-    print(count, "Registros insertados exitosamente en la tabla post")
+    print(count, "Registros insertados exitosamente en la tabla influencers")
+
 
 except (Exception, psycopg2.Error) as error:
     con.rollback()
     print("Error al insertar los datos en la tabla, Detalles:", error)
 
-
 #use Pandas to print the result in tabular form
 # Don't RUN before you put your SQL Query
-my_table = pd.read_sql("SELECT * FROM post ", con)
+my_table = pd.read_sql("SELECT * FROM influencers", con)
 display(my_table)
