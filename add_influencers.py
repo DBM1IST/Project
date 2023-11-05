@@ -1,11 +1,18 @@
-#Create Influencers Table
+sql = f'DROP TABLE IF EXISTS {influencersTable}'
+
+# Ejecutar la sentencia SQL
+cursor.execute(sql)
+
+# Confirmar la eliminación
+con.commit()
 
 try:
     #table_name variable
     influencersTable="influencers"
     create_influencersTablee_query = '''CREATE TABLE '''+ influencersTable +''' 
-              (username TEXT  PRIMARY KEY     NOT NULL
-               ); '''
+              ( id INT PRIMARY KEY NOT NULL,
+              username TEXT REFERENCES users(username) 
+              ); '''
 
     #Execute this command (SQL Query)
     cursor.execute(create_influencersTablee_query)
@@ -32,13 +39,13 @@ for line in file:
     work_line = line.strip().split(",")  # Elimina el salto de línea y divide por comas
     data_to_insert.append(work_line)  # Agrega los datos a la lista
 
-sql_insert_influencers = "INSERT INTO influencers (username) VALUES (%s)"
+sql_insert_influencers = "INSERT INTO influencers (id,username) VALUES (%s,%s)"
 
 
 try:
     # Ejecuta el INSERT statement para cada conjunto de datos
     for user_data in data_to_insert:
-        data = (user_data[0], user_data[1],user_data[2],user_data[3], user_data[4])
+        data = (user_data[0],user_data[1])
         cursor.execute(sql_insert_influencers, data)
          
 
@@ -48,6 +55,12 @@ try:
     count = cursor.rowcount
     print(count, "Registros insertados exitosamente en la tabla influencers")
 
+
 except (Exception, psycopg2.Error) as error:
     con.rollback()
     print("Error al insertar los datos en la tabla, Detalles:", error)
+
+#use Pandas to print the result in tabular form
+# Don't RUN before you put your SQL Query
+my_table = pd.read_sql("SELECT * FROM influencers", con)
+display(my_table)
