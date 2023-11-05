@@ -2,7 +2,7 @@
 
 try:
     #table_name variable
-    influencersTable="users"
+    influencersTable="influencers"
     create_influencersTablee_query = '''CREATE TABLE '''+ influencersTable +''' 
               (username TEXT  PRIMARY KEY     NOT NULL
                ); '''
