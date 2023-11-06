@@ -504,5 +504,7 @@ display(my_table)
 # TOP 10 post with more likes and comments by users with 24 years or less
 my_table = pd.read_sql("SELECT p.username , u.age, u.followers, p.id_post, p.n_like, p.n_comments, p.type, p.city FROM users u INNER JOIN post p ON u.username = p.username  WHERE u.age < 25 ORDER BY p.n_like DESC OFFSET 0 LIMIT 10 ;",con)
 display(my_table)
+# τ p . n_like ↓  π p . username, u . age, u . followers, p . id_post, p . n_like, p . n_comments, p . type, p . city σ u . age < 25(ρ u users ⋈ u . username = p . username ρ p post)
+
 
 
