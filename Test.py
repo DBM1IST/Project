@@ -468,12 +468,12 @@ display(my_table)
 my_table = pd.read_sql("SELECT * FROM post WHERE id_company = 'Snaptags'", con)
 display(my_table)
 
-#Posts that have been published by users who are not influencers
+#Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT * FROM post INNER JOIN users ON post.username = users.username WHERE users.followers < 80000 ", con)
 display(my_table)
 
 
-#Posts that have been published by users who are not influencers
+#Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT post.* FROM post LEFT JOIN influencers ON post.username = influencers.username WHERE influencers.username IS NULL", con)
 display(my_table)
 
