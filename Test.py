@@ -471,11 +471,12 @@ display(my_table)
 #Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT * FROM post INNER JOIN users ON post.username = users.username WHERE users.followers < 80000 ", con)
 display(my_table)
-
+#σ followers < 80000 (post ⨝ username = username (users))
 
 #Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT post.* FROM post LEFT JOIN influencers ON post.username = influencers.username WHERE influencers.username IS NULL", con)
 display(my_table)
+#π post.* (post ⨝ username = username (influencers))
 
 #- Number of relevant posts from each advertising company in ascending order > 27
 my_table = pd.read_sql("SELECT DISTINCT id_company , COUNT (*) FROM post GROUP BY id_company HAVING count(*)>27 ORDER BY count DESC", con)
