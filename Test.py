@@ -481,3 +481,20 @@ display(my_table)
 #- Number of relevant posts from each advertising company in ascending order > 27
 my_table = pd.read_sql("SELECT DISTINCT id_company , COUNT (*) FROM post GROUP BY id_company HAVING count(*)>27 ORDER BY count DESC", con)
 display(my_table)
+
+
+#-	Locations with more than 5M interactions and with more than 5 relevant posts
+#my_table = pd.read_sql("SELECT COUNT (post) AS post FROM post INNER JOIN location ON post.city = location.city WHERE location.interactions > 9700000 "  , con)
+my_table = pd.read_sql("SELECT location.* FROM location JOIN (SELECT city, COUNT() AS post_count FROM post GROUP BY city HAVING COUNT() > 5) post ON location.city = post.city GROUP BY location.city HAVING SUM(location.interactions) > 8000000 ORDER BY location.interactions DESC",con)
+#π location.* (σ SUM(interactions) > 8000000 (location ⨝ city = city ((π city, COUNT(*) (σ COUNT(*) > 5 (ρ city (post)))))))
+display(my_table)
+
+
+# Post with more than 300,000 likes and more than 10,000 comments, Games type and located in Lyon. Limited
+my_table = pd.read_sql("SELECT * FROM post WHERE n_like>300000 AND n_comments>10000 AND city='Lyon' AND type='Games' ORDER BY n_comments ASC OFFSET 0 LIMIT 5",con)
+# π * (σ n_like > 300000 ∧ n_comments > 10000 ∧ city = 'Lyon' ∧ type = 'Games' (σ OFFSET 0 LIMIT 5 (ρ n_comments (n_comments ASC (post)))))
+display(my_table)
+
+
+
+
