@@ -471,12 +471,12 @@ display(my_table)
 #Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT post.* FROM post INNER JOIN users ON post.username = users.username WHERE users.followers < 80000 ORDER BY post.n_like DESC ", con)
 display(my_table)
-#σ followers < 80000 (post ⨝ username = username (users))
+#σ users . followers < 80000 (post ⋈ post . username = users . username users)
 
 #Relevants posts that have been published by users who are not influencers
 my_table = pd.read_sql("SELECT post.* FROM post LEFT JOIN influencers ON post.username = influencers.username WHERE influencers.username IS NULL ORDER BY post.n_like DESC", con)
 display(my_table)
-#π post (post ⨝ username = username (influencers))
+#τ post . n_like ↓(desc) π post  σ influencers . username = NULL (post ⋈ post . username = influencers . username influencers)
 
 #- Number of relevant posts from each advertising company in ascending order > 27
 my_table = pd.read_sql("SELECT DISTINCT id_company , COUNT () FROM post GROUP BY id_company HAVING count()>25 ORDER BY count DESC", con)
@@ -493,7 +493,7 @@ display(my_table)
 # Post with more than 300,000 likes and more than 10,000 comments, Games type and located in Lyon. Limited
 my_table = pd.read_sql("SELECT * FROM post WHERE n_like>300000 AND n_comments>10000 AND city='Lyon' AND type='Games' ORDER BY n_comments ASC OFFSET 0 LIMIT 5",con)
 display(my_table)
-# π * (σ n_like > 300000 ∧ n_comments > 10000 ∧ city = 'Lyon' ∧ type = 'Games' (σ OFFSET 0 LIMIT 5 (ρ n_comments (n_comments ASC (post)))))
+# π * (σ n_like > 300000 ∧ n_comments > 10000 ∧ city = 'Lyon' ∧ type = 'Games' (post))
 
 
 
