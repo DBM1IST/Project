@@ -496,5 +496,7 @@ my_table = pd.read_sql("SELECT * FROM post WHERE n_like>300000 AND n_comments>10
 display(my_table)
 
 
-
+# Influencers with more than 1000,000 followers, whose broadcast channel has less than 30,000 users and who do not have any relevant posts
+my_table = pd.read_sql("SELECT users.*, post.id_post, channels.name_channels, channels.n_users FROM influencers LEFT JOIN users ON influencers.username = users.username LEFT JOIN post ON influencers.username = post.username LEFT JOIN channels ON influencers.username = channels.username WHERE users.followers > 1000000 AND post.username IS NULL AND channels.n_users > 30000",con)
+display(my_table)
 
