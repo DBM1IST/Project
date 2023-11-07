@@ -8,7 +8,7 @@ my_table = pd.read_sql("SELECT post.* FROM post LEFT JOIN influencers ON post.us
 display(my_table)
 #τ post . n_like ↓(desc) π post  σ influencers . username = NULL (post ⋈ post . username = influencers . username influencers)
 
-#- Number of relevant posts from each advertising company in ascending order > 27
+#- Number of relevant posts from each advertising company in ascending order > 25
 my_table = pd.read_sql("SELECT DISTINCT id_company , COUNT () FROM post GROUP BY id_company HAVING count()>25 ORDER BY count DESC", con)
 display(my_table)
 
@@ -16,7 +16,7 @@ display(my_table)
 #-	Locations with more than 5M interactions and with more than 5 relevant posts
 my_table = pd.read_sql("SELECT location.* FROM location JOIN (SELECT city, COUNT() AS post_count FROM post GROUP BY city HAVING COUNT() > 5) post ON location.city = post.city GROUP BY location.city HAVING SUM(location.interactions) > 8000000 ORDER BY location.interactions DESC",con)
 display(my_table)
-#π location.* (σ SUM(interactions) > 8000000 (location ⨝ city = city ((π city, COUNT(*) (σ COUNT(*) > 5 (ρ city (post)))))))
+
 
 
 # Post with more than 300,000 likes and more than 10,000 comments, Games type and located in Lyon. Limited
